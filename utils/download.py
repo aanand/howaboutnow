@@ -4,7 +4,7 @@ import tempfile
 from urllib.request import urlopen
 from urllib.error import HTTPError
 
-TMP_DIR = './tmp'
+from .constants import TMP_DIR
 
 
 def download(url, prefix=None, suffix=None):
