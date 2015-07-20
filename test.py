@@ -33,24 +33,24 @@ def main():
     print('Now:\n')
     debug(now)
 
-    if len(then) < MIN_FRAMES_THEN:
-        print("Couldn't find enough old images - giving up")
-        return
+    # if len(then) < MIN_FRAMES_THEN:
+    #     print("Couldn't find enough old images - giving up")
+    #     return
 
-    if len(now) < MIN_FRAMES_NOW:
-        print("Couldn't find enough new images - giving up")
-        return
+    # if len(now) < MIN_FRAMES_NOW:
+    #     print("Couldn't find enough new images - giving up")
+    #     return
 
     then_frames = list(filter(None, (download_frame(item, 'then.') for item in then)))
     now_frames = list(filter(None, (download_frame(item, 'now.') for item in now)))
 
-    if len(then_frames) < MIN_FRAMES_THEN:
-        print("Couldn't download enough old images - giving up")
-        return
+    # if len(then_frames) < MIN_FRAMES_THEN:
+    #     print("Couldn't download enough old images - giving up")
+    #     return
 
-    if len(now_frames) < MIN_FRAMES_NOW:
-        print("Couldn't download enough new images - giving up")
-        return
+    # if len(now_frames) < MIN_FRAMES_NOW:
+    #     print("Couldn't download enough new images - giving up")
+    #     return
 
     then_frames = then_frames[:MAX_FRAMES_THEN]
     now_frames = now_frames[:MAX_FRAMES_NOW]
