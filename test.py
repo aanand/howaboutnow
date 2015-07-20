@@ -2,15 +2,10 @@ import sys
 
 from utils.images import search, debug_items, image_url, image_mime_type
 from utils.download import download
-from utils.constants import TMP_DIR
-
-import subprocess
-import os.path
-import shutil
+from utils.video import make_video
 
 import logging
 log = logging.getLogger(__name__)
-
 
 MIN_FRAMES_THEN = 3
 MAX_FRAMES_THEN = 6
@@ -53,29 +48,7 @@ def main():
     then_frames = then_frames[:MAX_FRAMES_THEN]
     now_frames = now_frames[:MAX_FRAMES_NOW]
 
-    all_frames = then_frames + now_frames
-    frame_filename_format = 'frame-%03d.jpg'
-    numbered_frames = [
-        os.path.join(TMP_DIR, frame_filename_format % index)
-        for index in range(0, len(all_frames))
-    ]
-
-    for src, dst in zip(all_frames, numbered_frames):
-        shutil.copy(src, dst)
-
-    check_call([
-        'bin/ffmpeg',
-        '-y',
-        '-framerate', '1',
-        '-i', os.path.join(TMP_DIR, frame_filename_format),
-        '-i', 'assets/audio.mp3',
-        '-c:v', 'libx264',
-        '-c:a', 'copy',
-        '-r', '30',
-        '-pix_fmt', 'yuv420p',
-        '-shortest',
-        'tmp/out.mp4',
-    ])
+    make_video(then_frames + now_frames)
 
 
 def start_logging():
@@ -86,17 +59,6 @@ def start_logging():
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
     root_logger.addHandler(stderr)
-
-
-def check_call(cmd, *args, **kwargs):
-    log.info("$ %s" % " ".join(cmd))
-    output = ""
-
-    try:
-        output = subprocess.check_output(cmd, *args, **kwargs)
-    except subprocess.CalledProcessError:
-        log.error(output)
-        raise
 
 
 def download_frame(item, prefix=None):
