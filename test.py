@@ -1,6 +1,6 @@
 import sys
 
-from utils.images import search, debug_items, image_url, image_mime_type
+from utils.image_search import search, debug_items, image_url, image_mime_type
 from utils.download import download
 from utils.video import make_video
 from utils.constants import AUDIO_FILE
