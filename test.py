@@ -2,6 +2,7 @@ import sys
 
 from utils.image_search import search, debug_items, image_url, image_mime_type
 from utils.download import download
+from utils.image import make_thumbnail
 from utils.video import make_video
 from utils.constants import AUDIO_FILE
 
@@ -49,10 +50,12 @@ def main():
     then_frames = then_frames[:MAX_FRAMES_THEN]
     now_frames = now_frames[:MAX_FRAMES_NOW]
 
-    make_video(
-        then_frames+now_frames,
-        AUDIO_FILE,
-    )
+    all_frames = [
+        make_thumbnail(filename, 500, 500)
+        for filename in then_frames + now_frames
+    ]
+
+    make_video(all_frames, AUDIO_FILE)
 
 
 def start_logging():

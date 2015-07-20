@@ -1,4 +1,3 @@
-import subprocess
 import os.path
 import shutil
 
@@ -6,6 +5,7 @@ import logging
 log = logging.getLogger(__name__)
 
 from .constants import TMP_DIR
+from .subprocess import check_call
 
 FFMPEG_BINARY = 'bin/ffmpeg'
 FRAME_FILENAME_FORMAT = 'frame-%03d.jpg'
@@ -33,14 +33,3 @@ def make_video(frame_files, audio_file):
         '-shortest',
         'tmp/out.mp4',
     ])
-
-
-def check_call(cmd, *args, **kwargs):
-    log.info("$ %s" % " ".join(cmd))
-    output = ""
-
-    try:
-        output = subprocess.check_output(cmd, *args, **kwargs)
-    except subprocess.CalledProcessError:
-        log.error(output)
-        raise
