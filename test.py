@@ -3,8 +3,14 @@ import sys
 from utils.image_search import search, debug_items, image_url, image_mime_type
 from utils.download import download
 from utils.image import make_thumbnail
+from utils.slideshow import make_slideshow
 from utils.video import make_video
-from utils.constants import AUDIO_FILE
+from utils.constants import (
+    AUDIO_FILE,
+    SECTION_LENGTH_THEN,
+    SECTION_LENGTH_NOW,
+    FRAME_FILENAME_FORMAT,
+)
 
 import logging
 log = logging.getLogger(__name__)
@@ -50,10 +56,13 @@ def main():
     then_frames = then_frames[:MAX_FRAMES_THEN]
     now_frames = now_frames[:MAX_FRAMES_NOW]
 
-    all_frames = [
-        make_thumbnail(filename, 500, 500)
-        for filename in then_frames + now_frames
-    ]
+    all_frames = make_slideshow(
+        [
+            (then_frames, SECTION_LENGTH_THEN),
+            (now_frames, SECTION_LENGTH_NOW),
+        ],
+        FRAME_FILENAME_FORMAT,
+    )
 
     make_video(all_frames, AUDIO_FILE)
 
@@ -71,7 +80,8 @@ def start_logging():
 def download_frame(item, prefix=None):
     image_type = image_mime_type(item).partition('/')[2]
     suffix = ('.' + image_type if image_type else None)
-    return download(image_url(item), prefix=prefix, suffix=suffix)
+    downloaded = download(image_url(item), prefix=prefix, suffix=suffix)
+    return make_thumbnail(downloaded, 500, 500) if downloaded else None
 
 
 if __name__ == '__main__':
