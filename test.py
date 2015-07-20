@@ -74,9 +74,12 @@ def main():
         '-y',
         '-framerate', '1',
         '-i', os.path.join(TMP_DIR, frame_filename_format),
+        '-i', 'assets/audio.mp3',
         '-c:v', 'libx264',
+        '-c:a', 'copy',
         '-r', '30',
         '-pix_fmt', 'yuv420p',
+        '-shortest',
         'tmp/out.mp4',
     ])
 
