@@ -3,6 +3,7 @@ import sys
 from utils.images import search, debug_items, image_url, image_mime_type
 from utils.download import download
 from utils.video import make_video
+from utils.constants import AUDIO_FILE
 
 import logging
 log = logging.getLogger(__name__)
@@ -48,7 +49,10 @@ def main():
     then_frames = then_frames[:MAX_FRAMES_THEN]
     now_frames = now_frames[:MAX_FRAMES_NOW]
 
-    make_video(then_frames + now_frames)
+    make_video(
+        then_frames+now_frames,
+        AUDIO_FILE,
+    )
 
 
 def start_logging():

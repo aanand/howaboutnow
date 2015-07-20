@@ -11,7 +11,7 @@ FFMPEG_BINARY = 'bin/ffmpeg'
 FRAME_FILENAME_FORMAT = 'frame-%03d.jpg'
 
 
-def make_video(frame_files):
+def make_video(frame_files, audio_file):
     numbered_files = [
         os.path.join(TMP_DIR, FRAME_FILENAME_FORMAT % index)
         for index in range(0, len(frame_files))
@@ -21,11 +21,11 @@ def make_video(frame_files):
         shutil.copy(src, dst)
 
     check_call([
-        'bin/ffmpeg',
+        FFMPEG_BINARY,
         '-y',
         '-framerate', '1',
         '-i', os.path.join(TMP_DIR, FRAME_FILENAME_FORMAT),
-        '-i', 'assets/audio.mp3',
+        '-i', audio_file,
         '-c:v', 'libx264',
         '-c:a', 'copy',
         '-r', '30',
