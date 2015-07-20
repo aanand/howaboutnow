@@ -10,15 +10,14 @@ from utils.constants import (
     SECTION_LENGTH_THEN,
     SECTION_LENGTH_NOW,
     FRAME_FILENAME_FORMAT,
+    MIN_FRAMES_THEN,
+    MAX_FRAMES_THEN,
+    MIN_FRAMES_NOW,
+    MAX_FRAMES_NOW,
 )
 
 import logging
 log = logging.getLogger(__name__)
-
-MIN_FRAMES_THEN = 3
-MAX_FRAMES_THEN = 6
-MIN_FRAMES_NOW = 2
-MAX_FRAMES_NOW = 4
 
 
 def main():
@@ -34,24 +33,20 @@ def main():
     log.info('Now:')
     debug_items(now)
 
-    # if len(then) < MIN_FRAMES_THEN:
-    #     print("Couldn't find enough old images - giving up")
-    #     return
+    if len(then) < MIN_FRAMES_THEN:
+        raise Exception("Couldn't find enough old images - giving up")
 
-    # if len(now) < MIN_FRAMES_NOW:
-    #     print("Couldn't find enough new images - giving up")
-    #     return
+    if len(now) < MIN_FRAMES_NOW:
+        raise Exception("Couldn't find enough new images - giving up")
 
     then_frames = list(filter(None, (download_frame(item, 'then.') for item in then)))
     now_frames = list(filter(None, (download_frame(item, 'now.') for item in now)))
 
-    # if len(then_frames) < MIN_FRAMES_THEN:
-    #     print("Couldn't download enough old images - giving up")
-    #     return
+    if len(then_frames) < MIN_FRAMES_THEN:
+        raise Exception("Couldn't download enough old images - giving up")
 
-    # if len(now_frames) < MIN_FRAMES_NOW:
-    #     print("Couldn't download enough new images - giving up")
-    #     return
+    if len(now_frames) < MIN_FRAMES_NOW:
+        raise Exception("Couldn't download enough new images - giving up")
 
     then_frames = then_frames[:MAX_FRAMES_THEN]
     now_frames = now_frames[:MAX_FRAMES_NOW]
