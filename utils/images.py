@@ -24,11 +24,23 @@ def search(query, from_year, to_year):
     return sorted(items, key=guess_year)
 
 
+def page_url(item):
+    return item['image']['contextLink']
+
+
+def image_url(item):
+    return item['link']
+
+
+def image_mime_type(item):
+    return item['mime']
+
+
 def guess_year(item):
     # Grab all strings of 4 or more digits out of image + page URL
     number_strings = [
         num
-        for field in [item['image']['contextLink'], item['link']]
+        for field in [page_url(item), image_url(item)]
         for num in re.findall(r'\d{4,}', field)
     ]
 
