@@ -1,6 +1,9 @@
 import re
 import os
 
+import logging
+log = logging.getLogger(__name__)
+
 from apiclient.discovery import build
 
 GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
@@ -67,9 +70,9 @@ def get_results(query, from_date=None, to_date=None):
     ).execute()['items']
 
 
-def debug(items):
+def debug_items(items):
     for item in items:
-        print(guess_year(item))
-        print(item['image']['contextLink'])
-        print(item['link'])
-        print()
+        log.info(guess_year(item))
+        log.info(page_url(item))
+        log.info(image_url(item))
+        log.info('')

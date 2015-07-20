@@ -1,6 +1,6 @@
 import sys
 
-from utils.images import search, debug, image_url, image_mime_type
+from utils.images import search, debug_items, image_url, image_mime_type
 from utils.download import download
 from utils.constants import TMP_DIR
 
@@ -25,13 +25,11 @@ def main():
     then = search(query, 2000, 2013)
     now = list(reversed(search(query, 2013, 2020)))
 
-    print('Then:\n')
-    debug(then)
+    log.info('Then:')
+    debug_items(then)
 
-    print('\n===============\n\n')
-
-    print('Now:\n')
-    debug(now)
+    log.info('Now:')
+    debug_items(now)
 
     # if len(then) < MIN_FRAMES_THEN:
     #     print("Couldn't find enough old images - giving up")
@@ -55,16 +53,12 @@ def main():
     then_frames = then_frames[:MAX_FRAMES_THEN]
     now_frames = now_frames[:MAX_FRAMES_NOW]
 
-    print(then_frames)
-    print(now_frames)
-
     all_frames = then_frames + now_frames
     frame_filename_format = 'frame-%03d.jpg'
     numbered_frames = [
         os.path.join(TMP_DIR, frame_filename_format % index)
         for index in range(0, len(all_frames))
     ]
-    print(numbered_frames)
 
     for src, dst in zip(all_frames, numbered_frames):
         shutil.copy(src, dst)
