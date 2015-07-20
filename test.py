@@ -49,8 +49,8 @@ def main():
 
 
 def download_frame(item, prefix=None):
-    mime_type = image_mime_type(item).partition('/')[2] or None
-    suffix = ('.' + mime_type if mime_type else None)
+    image_type = image_mime_type(item).partition('/')[2]
+    suffix = ('.' + image_type if image_type else None)
     return download(image_url(item), prefix=prefix, suffix=suffix)
 
 
