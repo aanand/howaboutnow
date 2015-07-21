@@ -26,6 +26,8 @@ def search(query):
 
     then = max([old, young], key=lambda r: r.total_results())
 
+    log.info('using "{}"'.format(then.query()['exactTerms']))
+
     now = get_response(
         q=query,
         exactTerms=query,
@@ -90,6 +92,10 @@ class Request(object):
     def total_results(self):
         for r in self.responses():
             return r['searchInformation']['totalResults']
+
+    def query(self):
+        for r in self.responses():
+            return r['queries']['request'][0]
 
     def responses(self):
         from itertools import tee
