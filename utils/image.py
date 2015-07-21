@@ -19,4 +19,7 @@ def make_thumbnail(filename, width, height):
         out_filename,
     ])
 
-    return out_filename
+    if os.path.exists(out_filename):
+        return out_filename
+    else:
+        return None
