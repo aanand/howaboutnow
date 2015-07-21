@@ -29,9 +29,8 @@ def search(query):
     log.info('using "{}"'.format(then.query()['exactTerms']))
 
     now = get_response(
-        q=query,
+        q="2014 OR 2015",
         exactTerms=query,
-        sort='date:r:20140101:20500101',
     )
 
     log.info("old: {} results".format(old.total_results()))
