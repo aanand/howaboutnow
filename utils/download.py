@@ -2,7 +2,6 @@ import os
 import tempfile
 
 from urllib.request import urlopen
-from urllib.error import HTTPError
 
 from .constants import TMP_DIR
 
@@ -27,7 +26,7 @@ def download(url, prefix=None, suffix=None):
         if data:
             local_file.write(data)
             return local_file.name
-    except HTTPError as e:
+    except Exception as e:
         log.info(e)
     finally:
         local_file.close()
