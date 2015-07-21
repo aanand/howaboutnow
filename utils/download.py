@@ -23,11 +23,14 @@ def download(url, prefix=None, suffix=None):
 
     try:
         log.info('Downloading {} to {}'.format(url, local_file.name))
-        local_file.write(urlopen(url).read())
-        local_file.close()
-        return local_file.name
+        data = urlopen(url).read()
+        if data:
+            local_file.write(data)
+            return local_file.name
     except HTTPError as e:
         log.info(e)
+    finally:
         local_file.close()
-        os.remove(local_file.name)
-        return None
+
+    os.remove(local_file.name)
+    return None
