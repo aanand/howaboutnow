@@ -24,8 +24,7 @@ def main():
     start_logging()
 
     query = sys.argv[1]
-    then = search(query, 2000, 2013)
-    now = list(reversed(search(query, 2013, 2020)))
+    then, now = search(query)
 
     log.info('Then:')
     debug_items(then)

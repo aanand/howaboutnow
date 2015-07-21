@@ -12,19 +12,21 @@ GOOGLE_CSE_ID = os.environ['GOOGLE_CSE_ID']
 service = build('customsearch', 'v1', developerKey=GOOGLE_API_KEY)
 
 
-def search(query, from_year, to_year):
-    results = get_results(
-        query=query,
-        from_date='{}0101'.format(from_year),
-        to_date='{}1231'.format(to_year-1),
-    )
+def search(query):
+    old = get_response('"old {}"'.format(query))
+    young = get_response('"young {}"'.format(query))
+    then = max([old, young], key=total_results)
 
-    items = [
-        item for item in results
-        if guess_year(item) in range(from_year, to_year)
-    ]
+    now = get_response('"{}"'.format(query))
 
-    return sorted(items, key=guess_year)
+    log.info("old: {} results".format(total_results(old)))
+    log.info("young: {} results".format(total_results(young)))
+    log.info("now: {} results".format(total_results(now)))
+
+    return then['items'], now['items']
+
+def total_results(response):
+    return int(response['searchInformation']['totalResults'])
 
 
 def page_url(item):
@@ -57,22 +59,16 @@ def guess_year(item):
     return numbers[0] if numbers else None
 
 
-def get_results(query, from_date=None, to_date=None):
-    sort = None
-    if from_date and to_date:
-        sort = 'date:r:{}:{}'.format(from_date, to_date)
-
+def get_response(query):
     return service.cse().list(
         q=query,
         cx=GOOGLE_CSE_ID,
         searchType='image',
-        sort=sort,
-    ).execute()['items']
+    ).execute()
 
 
 def debug_items(items):
     for item in items:
-        log.info(guess_year(item))
         log.info(page_url(item))
         log.info(image_url(item))
         log.info('')
