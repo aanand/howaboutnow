@@ -91,7 +91,7 @@ class Request(object):
 
     def total_results(self):
         for r in self.responses():
-            return r['searchInformation']['totalResults']
+            return int(r['searchInformation']['totalResults'])
 
     def query(self):
         for r in self.responses():
