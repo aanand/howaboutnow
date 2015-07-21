@@ -26,29 +26,14 @@ def main():
     query = sys.argv[1]
     then, now = search(query)
 
-    log.info('Then:')
-    debug_items(then)
-
-    log.info('Now:')
-    debug_items(now)
-
-    if len(then) < MIN_FRAMES_THEN:
-        raise Exception("Couldn't find enough old images - giving up")
-
-    if len(now) < MIN_FRAMES_NOW:
-        raise Exception("Couldn't find enough new images - giving up")
-
-    then_frames = list(filter(None, (download_frame(item, 'then.') for item in then)))
-    now_frames = list(filter(None, (download_frame(item, 'now.') for item in now)))
+    then_frames = get_frames(then, 'then.', MAX_FRAMES_THEN)
+    now_frames = get_frames(now, 'now.', MAX_FRAMES_NOW)
 
     if len(then_frames) < MIN_FRAMES_THEN:
         raise Exception("Couldn't download enough old images - giving up")
 
     if len(now_frames) < MIN_FRAMES_NOW:
         raise Exception("Couldn't download enough new images - giving up")
-
-    then_frames = then_frames[:MAX_FRAMES_THEN]
-    now_frames = now_frames[:MAX_FRAMES_NOW]
 
     all_frames = make_slideshow(
         [
@@ -69,6 +54,16 @@ def start_logging():
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.DEBUG)
     root_logger.addHandler(stderr)
+
+
+def get_frames(items, prefix, max_items):
+    frame_iterator = filter(None, (download_frame(item, prefix) for item in items))
+    return take(frame_iterator, max_items)
+
+
+def take(iterator, max_items):
+    from itertools import islice
+    return list(islice(iterator, 0, max_items))
 
 
 def download_frame(item, prefix=None):
