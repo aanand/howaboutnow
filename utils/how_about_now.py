@@ -19,6 +19,10 @@ from .constants import (
 )
 
 
+class NotEnoughImages(Exception):
+    pass
+
+
 def make_video(query):
     then, now = search(query)
 
@@ -26,10 +30,10 @@ def make_video(query):
     now_frames = get_frames(now, 'now.', MAX_FRAMES_NOW)
 
     if len(then_frames) < MIN_FRAMES_THEN:
-        raise Exception("Couldn't download enough old images - giving up")
+        raise NotEnoughImages("Couldn't download enough old images - giving up")
 
     if len(now_frames) < MIN_FRAMES_NOW:
-        raise Exception("Couldn't download enough new images - giving up")
+        raise NotEnoughImages("Couldn't download enough new images - giving up")
 
     filename_format = os.path.join(TMP_DIR, 'frame-%03d.jpg')
 

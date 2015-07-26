@@ -8,6 +8,7 @@ from utils import (
     start_logging,
     extract_query,
     make_video,
+    NotEnoughImages,
     SQLStorage,
 )
 
@@ -75,7 +76,11 @@ class HowAboutNow(TwitterBot):
             self.log("Couldn't find a query in {}".format(self._tweet_url(tweet)))
             return
 
-        filename = make_video(query)
+        try:
+            filename = make_video(query)
+        except NotEnoughImages as e:
+            self.log(str(e))
+            return
 
         if self._is_silent():
             self.log("Silent mode is on. Would've responded to {} with {}".format(
