@@ -8,6 +8,7 @@ from utils import (
     start_logging,
     extract_query,
     make_video,
+    upload_media,
     NotEnoughImages,
     SQLStorage,
 )
@@ -87,10 +88,12 @@ class HowAboutNow(TwitterBot):
                 self._tweet_url(tweet), filename))
             return
 
+        media_id = upload_media(self.api, filename)
+
         self.post_tweet(
             "{} {}".format(prefix, query),
             reply_to=tweet,
-            media=filename,
+            media_ids=[media_id],
         )
         self.update_reply_threshold(tweet, prefix)
 

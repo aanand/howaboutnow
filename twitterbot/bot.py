@@ -176,15 +176,7 @@ class TwitterBot:
         self.state['followers'].append(f_id)
 
 
-    def post_tweet(self, text, reply_to=None, media=None):
-        kwargs = {}
-        args = [text]
-        if media is not None:
-            cmd = self.api.update_with_media
-            args.insert(0, media)
-        else:
-            cmd = self.api.update_status
-
+    def post_tweet(self, text, reply_to=None, media_ids=None):
         try:
             self.log('Tweeting "{}"'.format(text))
             if reply_to:
@@ -193,14 +185,13 @@ class TwitterBot:
             else:
                 self.log("-- Posting to own timeline")
 
-            tweet = cmd(*args, **kwargs)
+            tweet = self.api.update_status(text, media_ids=media_ids)
             self.log('Status posted at {}'.format(self._tweet_url(tweet)))
             return True
 
         except tweepy.TweepError as e:
             self._log_tweepy_error('Can\'t post status', e)
             return False
-
 
     def favorite_tweet(self, tweet):
         try:
