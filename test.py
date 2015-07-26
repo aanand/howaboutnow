@@ -1,27 +1,7 @@
 import sys
+from utils import start_logging, make_video
 
-import logging
-log = logging.getLogger(__name__)
+start_logging()
 
-from utils import make_video
-
-
-def main():
-    start_logging()
-
-    query = sys.argv[1]
-    make_video(query)
-
-
-def start_logging():
-    stderr = logging.StreamHandler()
-    stderr.setLevel(logging.DEBUG)
-    stderr.setFormatter(logging.Formatter(fmt='%(levelname)8s: %(message)s'))
-
-    root_logger = logging.getLogger()
-    root_logger.setLevel(logging.DEBUG)
-    root_logger.addHandler(stderr)
-
-
-if __name__ == '__main__':
-    main()
+query = sys.argv[1]
+make_video(query)
