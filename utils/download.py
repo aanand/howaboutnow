@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-from urllib.request import urlopen
+from urllib import urlopen
 
 from .constants import TMP_DIR
 

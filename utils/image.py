@@ -1,6 +1,6 @@
 import os
 
-from .subprocess import check_call
+from .check_call import check_call, CalledProcessError
 
 
 def make_thumbnail(filename, width, height):

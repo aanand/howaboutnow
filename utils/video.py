@@ -2,7 +2,7 @@ import logging
 log = logging.getLogger(__name__)
 
 from .constants import TMP_DIR, FRAMERATE
-from .subprocess import check_call
+from .check_call import check_call
 
 FFMPEG_BINARY = 'bin/ffmpeg'
 

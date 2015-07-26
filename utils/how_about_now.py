@@ -1,5 +1,7 @@
 import os
 
+from itertools import ifilter, islice
+
 from .image_search import search, debug_items, image_url, image_mime_type
 from .download import download
 from .image import make_thumbnail
@@ -43,12 +45,11 @@ def make_video(query):
 
 
 def get_frames(items, prefix, max_items):
-    frame_iterator = filter(None, (download_frame(item, prefix) for item in items))
+    frame_iterator = ifilter(None, (download_frame(item, prefix) for item in items))
     return take(frame_iterator, max_items)
 
 
 def take(iterator, max_items):
-    from itertools import islice
     return list(islice(iterator, 0, max_items))
 
 
