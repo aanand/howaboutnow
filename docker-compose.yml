@@ -2,5 +2,13 @@ bot:
   build: .
   volumes:
     - .:/code
+  links:
+    - db
+  environment:
+    DATABASE_URL: "postgres://postgres@db:5432/postgres"
   env_file:
-    - .env
+    - .google.env
+    - .twitter.env
+
+db:
+  image: postgres
