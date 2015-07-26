@@ -9,17 +9,20 @@ def make_thumbnail(filename, width, height):
         'thumb.' + os.path.basename(filename) + '.jpg',
     )
 
-    check_call([
-        'convert',
-        '-define', 'jpeg:size=1000x1000',
-        filename,
-        '-thumbnail', '{}x{}^'.format(width, height),
-        '-gravity', 'center',
-        '-extent', '{}x{}'.format(width, height),
-        out_filename,
-    ])
+    try:
+        check_call([
+            'convert',
+            '-define', 'jpeg:size=1000x1000',
+            filename,
+            '-thumbnail', '{}x{}^'.format(width, height),
+            '-gravity', 'center',
+            '-extent', '{}x{}'.format(width, height),
+            out_filename,
+        ])
 
-    if os.path.exists(out_filename):
-        return out_filename
-    else:
-        return None
+        if os.path.exists(out_filename):
+            return out_filename
+    except CalledProcessError:
+        pass
+
+    return None
