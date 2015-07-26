@@ -24,7 +24,11 @@ def search(query):
     old = get_response(q='"{}"'.format(old_query))
     young = get_response(q='"{}"'.format(young_query))
 
-    then = max([old, young], key=lambda r: r.total_results())
+    if query == 'drake':
+        # Special-case Drake because 'old drake' is a meme
+        then = young
+    else:
+        then = max([old, young], key=lambda r: r.total_results())
 
     log.info("old: {} results".format(old.total_results()))
     log.info("young: {} results".format(young.total_results()))
