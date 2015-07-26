@@ -83,8 +83,8 @@ def get_response(**kwargs):
 
 
 class Request(object):
-    def __init__(self, engine, method, *args, **kwargs):
-        self._engine = engine
+    def __init__(self, resource, method, *args, **kwargs):
+        self._resource = resource
         self._method = method
         self._args = args
         self._kwargs = kwargs
@@ -107,7 +107,7 @@ class Request(object):
 
     def items(self):
         for response in self.responses():
-            for item in response['items']:
+            for item in response.get('items', []):
                 yield item
 
     def _responses(self):
@@ -115,10 +115,14 @@ class Request(object):
         while request is not None:
             response = request.execute()
             yield response
-            request = self._engine.list_next(request, response)
+
+            if hasattr(self._resource, 'list_next'):
+                request = self._resource.list_next(request, response)
+            else:
+                request = None
 
     def _request(self):
-        return getattr(self._engine, self._method)(*self._args, **self._kwargs)
+        return getattr(self._resource, self._method)(*self._args, **self._kwargs)
 
 def debug_items(items):
     for item in items:
