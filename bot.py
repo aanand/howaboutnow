@@ -83,7 +83,7 @@ class HowAboutNow(TwitterBot):
             return
 
         self.post_tweet(
-            prefix,
+            "{} {}".format(prefix, query),
             reply_to=tweet,
             media=filename,
         )
