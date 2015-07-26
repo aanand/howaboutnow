@@ -1,13 +1,15 @@
+import os
+
 from .image_search import search, debug_items, image_url, image_mime_type
 from .download import download
 from .image import make_thumbnail
 from .slideshow import make_slideshow
 from .video import make_video_from_images
 from .constants import (
+    TMP_DIR,
     AUDIO_FILE,
     SECTION_LENGTH_THEN,
     SECTION_LENGTH_NOW,
-    FRAME_FILENAME_FORMAT,
     MIN_FRAMES_THEN,
     MAX_FRAMES_THEN,
     MIN_FRAMES_NOW,
@@ -27,15 +29,17 @@ def make_video(query):
     if len(now_frames) < MIN_FRAMES_NOW:
         raise Exception("Couldn't download enough new images - giving up")
 
+    filename_format = os.path.join(TMP_DIR, 'frame-%03d.jpg')
+
     all_frames = make_slideshow(
         [
             (then_frames, SECTION_LENGTH_THEN),
             (now_frames, SECTION_LENGTH_NOW),
         ],
-        FRAME_FILENAME_FORMAT,
+        filename_format,
     )
 
-    make_video_from_images(all_frames, AUDIO_FILE)
+    return make_video_from_images(filename_format, AUDIO_FILE)
 
 
 def get_frames(items, prefix, max_items):

@@ -1,18 +1,18 @@
 import logging
 log = logging.getLogger(__name__)
 
-from .constants import TMP_DIR, FRAME_FILENAME_FORMAT, FRAMERATE
+from .constants import TMP_DIR, FRAMERATE
 from .subprocess import check_call
 
 FFMPEG_BINARY = 'bin/ffmpeg'
 
 
-def make_video_from_images(input, audio_file):
+def make_video_from_images(input_filename_format, audio_file):
     check_call([
         FFMPEG_BINARY,
         '-y',
         '-framerate', str(FRAMERATE),
-        '-i', FRAME_FILENAME_FORMAT,
+        '-i', input_filename_format,
         '-i', audio_file,
         '-c:v', 'libx264',
         '-c:a', 'libvo_aacenc',
