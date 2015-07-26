@@ -7,7 +7,7 @@ from .subprocess import check_call
 FFMPEG_BINARY = 'bin/ffmpeg'
 
 
-def make_video(input, audio_file):
+def make_video_from_images(input, audio_file):
     check_call([
         FFMPEG_BINARY,
         '-y',
