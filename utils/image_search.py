@@ -21,14 +21,14 @@ def search(query):
     old_query = 'old {}'.format(query)
     young_query = 'young {}'.format(query)
 
-    old = get_response(q=old_query, exactTerms=old_query)
-    young = get_response(q=young_query, exactTerms=young_query)
+    old = get_response(q='"{}"'.format(old_query))
+    young = get_response(q='"{}"'.format(young_query))
 
     then = max([old, young], key=lambda r: r.total_results())
 
     log.info("old: {} results".format(old.total_results()))
     log.info("young: {} results".format(young.total_results()))
-    log.info('using "{}"'.format(then.query()['exactTerms']))
+    log.info('using {}'.format(then.query()['searchTerms']))
 
     now = get_response(
         q="2014 OR 2015",
