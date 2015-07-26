@@ -176,7 +176,7 @@ class TwitterBot:
         self.state['followers'].append(f_id)
 
 
-    def post_tweet(self, text, reply_to=None, **kwargs):
+    def post_tweet(self, text, reply_to=None, media_ids=None, **kwargs):
         try:
             self.log('Tweeting "{}"'.format(text))
             if reply_to:
@@ -185,7 +185,7 @@ class TwitterBot:
             else:
                 self.log("-- Posting to own timeline")
 
-            tweet = self.api.update_status(text, **kwargs)
+            tweet = self.api.update_status(status=text, media_ids=media_ids, **kwargs)
             self.log('Status posted at {}'.format(self._tweet_url(tweet)))
             return True
 
