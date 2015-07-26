@@ -1,5 +1,6 @@
 bot:
   build: .
+  command: python bot.py
   volumes:
     - .:/code
   links:
