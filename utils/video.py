@@ -8,6 +8,8 @@ FFMPEG_BINARY = 'bin/ffmpeg'
 
 
 def make_video_from_images(input_filename_format, audio_file):
+    output_filename = 'tmp/out.mp4'
+
     check_call([
         FFMPEG_BINARY,
         '-y',
@@ -20,5 +22,7 @@ def make_video_from_images(input_filename_format, audio_file):
         '-r', str(FRAMERATE),
         '-pix_fmt', 'yuv420p',
         '-shortest',
-        'tmp/out.mp4',
+        output_filename,
     ])
+
+    return output_filename
