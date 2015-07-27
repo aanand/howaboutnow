@@ -8,8 +8,6 @@ from tweepy.binder import bind_api
 
 def upload_media(api, filename):
     media_type, headers, post_data = pack_media(filename, 'media')
-    kwargs = dict(headers=headers, post_data=post_data)
-
     total_bytes = os.path.getsize(filename)
 
     media_id = init(
