@@ -74,17 +74,18 @@ def pack_media(filename, form_field):
     media_type = media_type[0]
 
     fp = open(filename, 'rb')
-    BOUNDARY = 'Tw3ePy'
+    BOUNDARY = b'Tw3ePy'
     body = []
-    body.append('--' + BOUNDARY)
-    body.append('Content-Disposition: form-data; name="%s"; filename="%s"' % (form_field, filename))
-    body.append('Content-Type: %s' % media_type)
-    body.append('')
+    body.append(b'--' + BOUNDARY)
+    body.append(b'Content-Disposition: form-data; name="{}"; filename="{}"'.format(
+        form_field.encode('utf-8'), filename.encode('utf-8')))
+    body.append(b'Content-Type: {}'.format(media_type.encode('utf-8')))
+    body.append(b'')
     body.append(fp.read())
-    body.append('--' + BOUNDARY + '--')
-    body.append('')
+    body.append(b'--' + BOUNDARY + '--')
+    body.append(b'')
     fp.close()
-    body = '\r\n'.join(body)
+    body = b'\r\n'.join(body)
 
     # build headers
     headers = {
