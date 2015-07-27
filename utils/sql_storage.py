@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from sqlalchemy import create_engine, Table, Column, String, LargeBinary, MetaData
 from sqlalchemy.sql import select
 from sqlalchemy.exc import OperationalError

@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import os
 
 from .check_call import check_call, CalledProcessError

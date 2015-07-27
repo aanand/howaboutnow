@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 TMP_DIR = './tmp'
 FRAMERATE = 30
 
