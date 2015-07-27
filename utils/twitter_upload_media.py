@@ -82,7 +82,7 @@ def pack_media(filename, form_field):
     body.append(b'Content-Type: {}'.format(media_type.encode('utf-8')))
     body.append(b'')
     body.append(fp.read())
-    body.append(b'--' + BOUNDARY + '--')
+    body.append(b'--' + BOUNDARY + b'--')
     body.append(b'')
     fp.close()
     body = b'\r\n'.join(body)
