@@ -16,8 +16,6 @@ from utils.constants import (
 GOOGLE_API_KEY = os.environ['GOOGLE_API_KEY']
 GOOGLE_CSE_ID = os.environ['GOOGLE_CSE_ID']
 
-service = build('customsearch', 'v1', developerKey=GOOGLE_API_KEY)
-
 
 def search(query):
     old_query = 'old {}'.format(query)
@@ -75,6 +73,8 @@ def guess_year(item):
 
 
 def get_response(**kwargs):
+    service = build('customsearch', 'v1', developerKey=GOOGLE_API_KEY)
+
     return Request(
         service.cse(),
         'list',
