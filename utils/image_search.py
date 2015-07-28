@@ -26,7 +26,7 @@ def search(query):
     old = get_response(q='"{}"'.format(old_query))
     young = get_response(q='"{}"'.format(young_query))
 
-    if query == 'drake':
+    if query.lower() == 'drake':
         # Special-case Drake because 'old drake' is a meme
         then = young
     else:
