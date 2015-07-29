@@ -80,6 +80,7 @@ def get_response(**kwargs):
         'list',
         cx=GOOGLE_CSE_ID,
         searchType='image',
+        safe='high',
         **kwargs
     )
 
